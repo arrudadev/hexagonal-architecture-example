@@ -1,0 +1,16 @@
+services:
+  database:
+    image: postgres:14
+    container_name: hexagonal-arch-dev-database
+    environment:
+      POSTGRES_USER: hexagonal-arch
+      POSTGRES_PASSWORD: hexagonal-arch
+      POSTGRES_DB: hexagonal-arch
+    ports:
+      - 5432:5432
+    volumes:
+      - hexagonal-arch-dev-data:/var/lib/postgresql/data
+
+volumes:
+  hexagonal-arch-dev-data:
+    driver: local
