@@ -11,23 +11,23 @@ const taskService = new TaskService(taskRepository)
 const taskController = new TaskController(taskService)
 
 export async function taskRoutes(fastify: FastifyInstance) {
-  fastify.post('/users', async (request, reply) => {
-    return taskController.completeTask(request, reply)
+  fastify.post('/tasks', async (request, reply) => {
+    return taskController.createTask(request, reply)
   })
 
-  fastify.get('/users/:taskId', async (request, reply) => {
+  fastify.get('/tasks/:taskId', async (request, reply) => {
     return taskController.getTaskById(request, reply)
   })
 
-  fastify.put('/users/:taskId', async (request, reply) => {
+  fastify.put('/tasks/:taskId', async (request, reply) => {
     return taskController.updateTask(request, reply)
   })
 
-  fastify.patch('/users/:taskId/complete', async (request, reply) => {
+  fastify.patch('/tasks/:taskId/complete', async (request, reply) => {
     return taskController.completeTask(request, reply)
   })
 
-  fastify.delete('/users/:taskId', async (request, reply) => {
+  fastify.delete('/tasks/:taskId', async (request, reply) => {
     return taskController.deleteTask(request, reply)
   })
 }

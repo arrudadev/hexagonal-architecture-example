@@ -5,7 +5,7 @@ import { Task } from '@/core/entities/Task'
 import { ITaskRepository } from '@/core/ports/repositories/TaskRepository'
 
 import { DrizzleDb } from '../connection'
-import { tasksTable } from '../schemas'
+import { tasksTable, usersTable } from '../schemas'
 
 export class TaskRepository implements ITaskRepository {
   constructor(private db: DrizzleDb) {}
@@ -35,9 +35,16 @@ export class TaskRepository implements ITaskRepository {
 
   async getTasksByUserId(userId: string): Promise<Task[]> {
     const tasks = await this.db
-      .select()
+      .select({
+        id: tasksTable.id,
+        title: tasksTable.title,
+        completed: tasksTable.completed,
+        dueDate: tasksTable.dueDate,
+        userId: tasksTable.userId,
+      })
       .from(tasksTable)
-      .where(eq(tasksTable.id, userId))
+      .innerJoin(usersTable, eq(tasksTable.userId, usersTable.id))
+      .where(eq(usersTable.id, userId))
 
     return tasks
   }

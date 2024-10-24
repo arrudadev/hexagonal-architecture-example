@@ -14,8 +14,12 @@ export interface ITaskService {
 export class TaskService implements ITaskService {
   constructor(private taskRepository: ITaskRepository) {}
 
-  async createTask(task: CreateTaskDTO): Promise<Task> {
-    return this.taskRepository.createTask(task)
+  async createTask(dto: CreateTaskDTO): Promise<Task> {
+    return this.taskRepository.createTask({
+      title: dto.title,
+      dueDate: new Date(dto.dueDate),
+      userId: dto.userId,
+    })
   }
 
   async getTaskById(taskId: string): Promise<Task> {
@@ -27,7 +31,10 @@ export class TaskService implements ITaskService {
   }
 
   async updateTask(taskId: string, task: UpdateTaskDTO): Promise<Task> {
-    return this.taskRepository.updateTask(taskId, task)
+    return this.taskRepository.updateTask(taskId, {
+      title: task.title,
+      dueDate: new Date(task.dueDate),
+    })
   }
 
   async completeTask(taskId: string): Promise<Task> {

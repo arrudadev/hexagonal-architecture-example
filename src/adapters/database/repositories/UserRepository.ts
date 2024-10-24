@@ -30,20 +30,28 @@ export class UserRepository implements IUserRepository {
     return this.mapUser(user)
   }
 
-  async getUserById(userId: string): Promise<UserDTO> {
+  async getUserById(userId: string): Promise<UserDTO | null> {
     const [user] = await this.db
       .select()
       .from(usersTable)
       .where(eq(usersTable.id, userId))
 
+    if (!user) {
+      return null
+    }
+
     return this.mapUser(user)
   }
 
-  async getUserByEmail(email: string): Promise<UserDTO> {
+  async getUserByEmail(email: string): Promise<UserDTO | null> {
     const [user] = await this.db
       .select()
       .from(usersTable)
       .where(eq(usersTable.email, email))
+
+    if (!user) {
+      return null
+    }
 
     return this.mapUser(user)
   }
