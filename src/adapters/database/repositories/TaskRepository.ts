@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm'
 
-import { CreateTaskDTO, UpdateTaskDTO } from '@/core/dtos/TaskDTO'
+import { CreateTaskDTO } from '@/core/dtos/TaskDTO'
 import { Task } from '@/core/entities/Task'
 import { ITaskRepository } from '@/core/ports/repositories/TaskRepository'
 
@@ -49,29 +49,8 @@ export class TaskRepository implements ITaskRepository {
     return tasks
   }
 
-  async updateTask(taskId: string, task: UpdateTaskDTO): Promise<Task> {
-    const [updatedTask] = await this.db
-      .update(tasksTable)
-      .set({
-        title: task.title,
-        dueDate: task.dueDate,
-      })
-      .where(eq(tasksTable.id, taskId))
-      .returning()
-
-    return updatedTask
-  }
-
-  async completeTask(taskId: string): Promise<Task> {
-    const [completedTask] = await this.db
-      .update(tasksTable)
-      .set({
-        completed: true,
-      })
-      .where(eq(tasksTable.id, taskId))
-      .returning()
-
-    return completedTask
+  async updateTask(taskId: string, task: Partial<Task>): Promise<void> {
+    await this.db.update(tasksTable).set(task).where(eq(tasksTable.id, taskId))
   }
 
   async deleteTask(taskId: string): Promise<void> {

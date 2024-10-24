@@ -3,8 +3,3 @@ export type CreateTaskDTO = {
   dueDate: Date
   userId: string
 }
-
-export type UpdateTaskDTO = {
-  title: string
-  dueDate: Date
-}
