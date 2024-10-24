@@ -23,10 +23,6 @@ export async function userRoutes(fastify: FastifyInstance) {
     return userController.updateUser(request, reply)
   })
 
-  fastify.patch('/users/:userId/password', async (request, reply) => {
-    return userController.updatePassword(request, reply)
-  })
-
   fastify.delete('/users/:userId', async (request, reply) => {
     return userController.deleteUser(request, reply)
   })

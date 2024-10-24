@@ -7,8 +7,8 @@ export class UserController {
   constructor(private userService: IUserService) {}
 
   async createUser(request: FastifyRequest, reply: FastifyReply) {
-    const { name, email, password } = request.body as CreateUserDTO
-    const user = await this.userService.createUser({ name, email, password })
+    const { name, email } = request.body as CreateUserDTO
+    const user = await this.userService.createUser({ name, email })
     reply.status(201).send(user)
   }
 
@@ -28,15 +28,6 @@ export class UserController {
     })
 
     reply.send(user)
-  }
-
-  async updatePassword(request: FastifyRequest, reply: FastifyReply) {
-    const { userId } = request.params as { userId: string }
-    const { password } = request.body as { password: string }
-
-    await this.userService.updatePassword(userId, password)
-
-    reply.send()
   }
 
   async deleteUser(request: FastifyRequest, reply: FastifyReply) {

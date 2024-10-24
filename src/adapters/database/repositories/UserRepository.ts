@@ -24,7 +24,6 @@ export class UserRepository implements IUserRepository {
       .values({
         name: dto.name,
         email: dto.email,
-        password: dto.password,
       })
       .returning()
 
@@ -60,13 +59,6 @@ export class UserRepository implements IUserRepository {
       .returning()
 
     return this.mapUser(updatedUser)
-  }
-
-  async updatePassword(userId: string, password: string): Promise<void> {
-    await this.db
-      .update(usersTable)
-      .set({ password })
-      .where(eq(usersTable.id, userId))
   }
 
   async deleteUser(userId: string): Promise<void> {

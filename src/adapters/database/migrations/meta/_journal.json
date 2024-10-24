@@ -15,6 +15,13 @@
       "when": 1729697632107,
       "tag": "0001_create-tasks-table",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1729779072205,
+      "tag": "0002_remove-users-password-column",
+      "breakpoints": true
     }
   ]
 }

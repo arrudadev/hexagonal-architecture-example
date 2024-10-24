@@ -6,7 +6,6 @@ export interface IUserService {
   getUserById(userId: string): Promise<UserDTO>
   getUserByEmail(email: string): Promise<UserDTO>
   updateUser(userId: string, user: UpdateUserDTO): Promise<UserDTO>
-  updatePassword(userId: string, password: string): Promise<void>
   deleteUser(userId: string): Promise<void>
 }
 
@@ -27,10 +26,6 @@ export class UserService implements IUserService {
 
   async updateUser(userId: string, user: UpdateUserDTO): Promise<UserDTO> {
     return this.userRepository.updateUser(userId, user)
-  }
-
-  async updatePassword(userId: string, password: string): Promise<void> {
-    return this.userRepository.updatePassword(userId, password)
   }
 
   async deleteUser(userId: string): Promise<void> {
