@@ -1,7 +1,7 @@
 services:
-  database:
+  postgres:
     image: postgres:14
-    container_name: hexagonal-arch-dev-database
+    container_name: hexagonal-arch-dev-postgres
     environment:
       POSTGRES_USER: hexagonal-arch
       POSTGRES_PASSWORD: hexagonal-arch
@@ -9,8 +9,31 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - hexagonal-arch-dev-data:/var/lib/postgresql/data
+      - hexagonal-arch-dev-data-postgres:/var/lib/postgresql/data
+
+  mongodb:
+    image: mongo:5
+    container_name: hexagonal-arch-dev-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: hexagonal-arch
+      MONGO_INITDB_ROOT_PASSWORD: hexagonal-arch
+    ports:
+      - 27017:27017
+    volumes:
+      - hexagonal-arch-dev-data-mongodb:/data/db
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: hexagonal-arch
+      ME_CONFIG_MONGODB_ADMINPASSWORD: hexagonal-arch
+      ME_CONFIG_MONGODB_URL: mongodb://hexagonal-arch:hexagonal-arch@mongodb:27017
+      ME_CONFIG_BASICAUTH: false
 
 volumes:
-  hexagonal-arch-dev-data:
+  hexagonal-arch-dev-data-postgres:
+    driver: local
+  hexagonal-arch-dev-data-mongodb:
     driver: local

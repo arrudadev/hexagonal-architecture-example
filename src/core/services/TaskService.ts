@@ -2,6 +2,8 @@ import { CreateTaskDTO, UpdateTaskDTO } from '@/core/dtos/TaskDTO'
 import { Task } from '@/core/entities/Task'
 import { ITaskRepository } from '@/core/ports/repositories/TaskRepository'
 
+import { IScheduler } from '../ports/schedulers/Scheduler'
+
 export interface ITaskService {
   createTask(task: CreateTaskDTO): Promise<Task>
   getTaskById(taskId: string): Promise<Task>
@@ -12,14 +14,21 @@ export interface ITaskService {
 }
 
 export class TaskService implements ITaskService {
-  constructor(private taskRepository: ITaskRepository) {}
+  constructor(
+    private taskRepository: ITaskRepository,
+    private taskScheduler: IScheduler,
+  ) {}
 
   async createTask(dto: CreateTaskDTO): Promise<Task> {
-    return this.taskRepository.createTask({
+    const task = await this.taskRepository.createTask({
       title: dto.title,
       dueDate: new Date(dto.dueDate),
       userId: dto.userId,
     })
+
+    await this.taskScheduler.scheduleTaskNotification(task)
+
+    return task
   }
 
   async getTaskById(taskId: string): Promise<Task> {

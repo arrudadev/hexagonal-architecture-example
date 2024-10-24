@@ -7,6 +7,7 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
+    "agenda": "^5.0.0",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.35.3",
     "fastify": "^5.0.0",

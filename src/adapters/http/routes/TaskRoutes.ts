@@ -2,12 +2,13 @@ import { FastifyInstance } from 'fastify'
 
 import { db } from '@/adapters/database/connection'
 import { TaskRepository } from '@/adapters/database/repositories/TaskRepository'
+import { scheduler } from '@/adapters/scheduler'
 import { TaskService } from '@/core/services/TaskService'
 
 import { TaskController } from '../controllers/TaskController'
 
 const taskRepository = new TaskRepository(db)
-const taskService = new TaskService(taskRepository)
+const taskService = new TaskService(taskRepository, scheduler)
 const taskController = new TaskController(taskService)
 
 export async function taskRoutes(fastify: FastifyInstance) {

@@ -3,6 +3,7 @@ import { FastifyInstance } from 'fastify'
 import { db } from '@/adapters/database/connection'
 import { TaskRepository } from '@/adapters/database/repositories/TaskRepository'
 import { UserRepository } from '@/adapters/database/repositories/UserRepository'
+import { scheduler } from '@/adapters/scheduler'
 import { TaskService } from '@/core/services/TaskService'
 import { UserService } from '@/core/services/UserService'
 
@@ -14,7 +15,7 @@ const userService = new UserService(userRepository)
 const userController = new UserController(userService)
 
 const taskRepository = new TaskRepository(db)
-const taskService = new TaskService(taskRepository)
+const taskService = new TaskService(taskRepository, scheduler)
 const taskController = new TaskController(taskService)
 
 export async function userRoutes(fastify: FastifyInstance) {
