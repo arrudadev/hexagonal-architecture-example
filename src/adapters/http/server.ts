@@ -2,7 +2,7 @@ import Fastify from 'fastify'
 
 import { env } from '@/adapters/env'
 
-import { scheduler } from '../scheduler'
+import { startSchedulers } from '../schedulers'
 import { taskRoutes } from './routes/TaskRoutes'
 import { userRoutes } from './routes/UserRoutes'
 
@@ -15,7 +15,7 @@ fastify.register(taskRoutes)
 
 export const startServer = async () => {
   try {
-    await scheduler.start()
+    await startSchedulers()
     await fastify.listen({ port: env.PORT })
   } catch (err) {
     fastify.log.error(err)

@@ -1,0 +1,3 @@
+export enum TaskJobEnum {
+  TASK_NOTIFICATION_JOB = 'TASK_NOTIFICATION_JOB',
+}

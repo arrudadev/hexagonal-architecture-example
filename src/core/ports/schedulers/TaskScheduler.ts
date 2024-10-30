@@ -1,5 +1,5 @@
 import { Task } from '@/core/entities/Task'
 
-export interface IScheduler {
+export interface ITaskScheduler {
   scheduleTaskNotification(task: Task): Promise<void>
 }

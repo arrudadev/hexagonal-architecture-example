@@ -2,12 +2,12 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { db } from '@/adapters/database/connection'
 import { TaskRepository } from '@/adapters/database/repositories/TaskRepository'
-import { scheduler } from '@/adapters/scheduler'
+import { taskScheduler } from '@/adapters/schedulers/tasks'
 import { CreateTaskDTO } from '@/core/dtos/TaskDTO'
 import { CreateTaskUseCase } from '@/core/usecases/tasks/create/CreateTaskUseCase'
 
 const taskRepository = new TaskRepository(db)
-const createTaskUseCase = new CreateTaskUseCase(taskRepository, scheduler)
+const createTaskUseCase = new CreateTaskUseCase(taskRepository, taskScheduler)
 
 export class CreateTaskController {
   static async handle(request: FastifyRequest, reply: FastifyReply) {
