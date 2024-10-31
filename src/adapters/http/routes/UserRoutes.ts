@@ -1,32 +1,15 @@
 import { FastifyInstance } from 'fastify'
 
-import { db } from '@/adapters/database/connection'
-import { UserRepository } from '@/adapters/database/repositories/UserRepository'
-import { UserService } from '@/core/services/UserService'
-
 import { FindTaskByUserIdController } from '../controllers/tasks/find-by-user-id/FindTaskByUserIdController'
-import { UserController } from '../controllers/UserController'
-
-const userRepository = new UserRepository(db)
-const userService = new UserService(userRepository)
-const userController = new UserController(userService)
+import { CreateUserController } from '../controllers/users/create/CreateUserController'
+import { DeleteUserController } from '../controllers/users/delete/DeleteUserController'
+import { FindUserByIdController } from '../controllers/users/find-by-id/FindUserByIdController'
+import { UpdateUserController } from '../controllers/users/update/UpdateUserController'
 
 export async function userRoutes(fastify: FastifyInstance) {
-  fastify.post('/users', async (request, reply) => {
-    return userController.createUser(request, reply)
-  })
-
-  fastify.get('/users/:userId', async (request, reply) => {
-    return userController.getUserById(request, reply)
-  })
-
+  fastify.post('/users', CreateUserController.handle)
+  fastify.get('/users/:userId', FindUserByIdController.handle)
   fastify.get('/users/:userId/tasks', FindTaskByUserIdController.handle)
-
-  fastify.put('/users/:userId', async (request, reply) => {
-    return userController.updateUser(request, reply)
-  })
-
-  fastify.delete('/users/:userId', async (request, reply) => {
-    return userController.deleteUser(request, reply)
-  })
+  fastify.put('/users/:userId', UpdateUserController.handle)
+  fastify.delete('/users/:userId', DeleteUserController.handle)
 }
